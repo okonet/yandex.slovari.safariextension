@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>globalpage</title>
+	<meta name="author" content="Andrew Okonetchnikov">
+	<!-- Date: 2010-06-23 -->
+	
+	<script type="text/javascript" charset="utf-8">
+	
+	 safari.application.addEventListener("command", myCommandHandler, false);
+   safari.application.addEventListener("validate", myValidateHandler, false);
+   
+   function myValidateHandler(event) {
+     var term = event.userInfo;
+     if(term.length > 0)
+       event.target.title = "Translate \u201C" + event.userInfo + "\u201D with Yandex.Slovari...";
+     else
+       event.target.disabled = true;
+  }
+  
+  function myCommandHandler(event) {
+    var term = event.userInfo;
+    var lang = safari.extension.settings.lang || 'en';
+    
+    if(typeof console.log != 'undefined'){console.log(safari.application.activeBrowserWindow.page)};
+    
+    var newTab = safari.application.activeBrowserWindow.openTab();
+    newTab.url = 'http://lingvo.yandex.ru/' + lang + '?st_translate=on&text=' + term;
+  }
+   
+	</script>
+	
+</head>
+<body>
+</body>
+</html>
