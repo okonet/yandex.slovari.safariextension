@@ -54,7 +54,9 @@
 			<string>All</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>http://okonet.ru/projects/extensions/updates.plist</string>
 	<key>Website</key>
-	<string>http://okonet.ru/extensions/slovari</string>
+	<string>http://okonet.ru/</string>
 </dict>
 </plist>
