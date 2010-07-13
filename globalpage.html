@@ -8,27 +8,54 @@
 	
 	<script type="text/javascript" charset="utf-8">
 	
-	 safari.application.addEventListener("command", myCommandHandler, false);
-   safari.application.addEventListener("validate", myValidateHandler, false);
-   
-   function myValidateHandler(event) {
-     var term = event.userInfo;
-     if(term.length > 0)
-       event.target.title = "Translate \u201C" + event.userInfo + "\u201D with Yandex.Slovari...";
-     else
-       event.target.disabled = true;
-  }
-  
-  function myCommandHandler(event) {
-    var term = event.userInfo;
-    var lang = safari.extension.settings.lang || 'en';
+	  var YTranslator = {
+      
+      languages: {
+        'undefined': 'перевод',
+        'en': 'с английского',
+        'de': 'с немецкого',
+        'fr': 'с французского',
+        'it': 'с итальянского',
+        'es': 'с испанского',
+        'la': 'с латинского'
+      },
+      
+      initialize: function() {
+        // Attach events
+        safari.application.addEventListener("command", this.openTabWithTranslation, false);
+        safari.application.addEventListener("validate", this.myValidateHandler, false);         
+      },
+      
+      myValidateHandler: function(event) {
+         var term = event.userInfo;
+         if(term.length > 0)
+           event.target.title = "Translate \u201C" + event.userInfo + "\u201D with Yandex.Slovari...";
+         else
+           event.target.disabled = true;
+      },
+      
+      // Opens tab with slovari.yandex.ru translation for a given term within the given language
+      openTabWithTranslation: function(event) {
+        var term = event.userInfo;
+        var lang = safari.extension.settings.lang || 'en'; // Use english as a dafault language
+        
+        // For non-supported by Yandex languages we'll fallback to English
+        if(YTranslator.getObjectKeys(YTranslator.languages).indexOf(lang) < 0) lang = 'en';
+        
+        var newTab = safari.application.activeBrowserWindow.openTab();
+        newTab.url = "http://lingvo.yandex.ru/" +  encodeURIComponent(term) + '/' + encodeURIComponent(YTranslator.languages[lang]);
+      },
+      
+      getObjectKeys: function(){
+        var keys = [];
+        for(key in this.languages) {
+          keys.push(key);
+        }
+        return keys;
+      }
+    };
     
-    if(typeof console.log != 'undefined'){console.log(safari.application.activeBrowserWindow.page)};
-    
-    var newTab = safari.application.activeBrowserWindow.openTab();
-    newTab.url = 'http://lingvo.yandex.ru/' + lang + '?st_translate=on&text=' + term;
-  }
-   
+    YTranslator.initialize();
 	</script>
 	
 </head>
