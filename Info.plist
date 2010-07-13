@@ -55,7 +55,7 @@
 		</dict>
 	</dict>
 	<key>Update Manifest URL</key>
-	<string>http://okonet.ru/projects/extensions/updates.plist</string>
+	<string>http://okonet.ru/projects/extensions/safari/updates.plist</string>
 	<key>Website</key>
 	<string>http://okonet.ru/</string>
 </dict>
